@@ -6,6 +6,7 @@ build/
 
 # editor config
 .vscode/
+cmake-build-debug/
 
 # Xcode
 *.pbxuser
