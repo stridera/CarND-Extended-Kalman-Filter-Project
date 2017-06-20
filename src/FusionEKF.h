@@ -46,8 +46,8 @@ private:
     Eigen::MatrixXd Hj_;
 
     // Use noise levels specified from Udacity
-    const float noise_ax = 9;
-    const float noise_ay = 9;
+    const float noise_ax_ = 9;
+    const float noise_ay_ = 9;
 };
 
 #endif /* FusionEKF_H_ */

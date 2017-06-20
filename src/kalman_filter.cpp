@@ -1,5 +1,5 @@
 #include "kalman_filter.h"
-
+#include <iostream>
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
@@ -39,14 +39,26 @@ void KalmanFilter::Update(const VectorXd &z) {
     P_ = (I - K * H_) * P_;
 }
 
-void KalmanFilter::UpdateEKF(const VectorXd &z, ) {
-    // Lesson 5, Section 20: EKF Algorithm Generalization
-  /**
-  TODO:
-    * update the state by using Extended Kalman Filter equations
-  */
-    VectorXd z_pred = H_ * x_;
-    VectorXd y = z - z_pred;
+void KalmanFilter::UpdateEKF(const VectorXd &z) {
+    /**
+     * Lesson 5, Section 20: EKF Algorithm Generalization
+     * Reference 17.1
+     * update the state by using Extended Kalman Filter equations
+    */
+
+    // For radar, we need to look at the world a little differently
+    float r = sqrt( ( x_(0) * x_(0) ) + ( x_(1) * x_(1) ) );
+    float Φ = atan2( x_(1), x_(0) );
+    float Φrate = ( x_(0) * x_(2) + x_(1) * x_(3) ) / r;
+
+    VectorXd h_x(3);
+    h_x << r, Φ, Φrate;
+    std::cout << "x_: " << x_ << std::endl;
+    std::cout << "hx: " << h_x << std::endl;
+
+    VectorXd y = z - h_x;
+
+    // The rest is just like a normal Kalman filter
     MatrixXd Ht = H_.transpose();
     MatrixXd S = H_ * P_ * Ht + R_;
     MatrixXd Si = S.inverse();
