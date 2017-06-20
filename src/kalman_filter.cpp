@@ -48,11 +48,11 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
     // For radar, we need to look at the world a little differently
     float r = sqrt( ( x_(0) * x_(0) ) + ( x_(1) * x_(1) ) );
-    float Φ = atan2( x_(1), x_(0) );
-    float Φrate = ( x_(0) * x_(2) + x_(1) * x_(3) ) / r;
+    float t = atan2( x_(1), x_(0) );
+    float trate = ( x_(0) * x_(2) + x_(1) * x_(3) ) / r;
 
     VectorXd h_x(3);
-    h_x << r, Φ, Φrate;
+    h_x << r, t, trate;
     std::cout << "x_: " << x_ << std::endl;
     std::cout << "hx: " << h_x << std::endl;
 
